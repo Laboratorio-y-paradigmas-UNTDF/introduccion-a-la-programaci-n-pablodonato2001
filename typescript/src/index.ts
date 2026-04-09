@@ -26,7 +26,7 @@
  *          calcularConImpuesto(99.99, 10) === 109.99
  */
 export function calcularConImpuesto(base: number, tasa: number): number {
-  throw new Error("No implementado");
+  return Number((base * (1 + tasa/100)).toFixed(2));
 }
 
 /**
@@ -41,7 +41,9 @@ export function agruparPorParidad(nums: number[]): {
   pares: number[];
   impares: number[];
 } {
-  throw new Error("No implementado");
+    const pares = nums.filter(num => num % 2 === 0);
+    const impares = nums.filter(num => num % 2 !== 0);
+    return { pares, impares };
 }
 
 /**
@@ -54,7 +56,9 @@ export function agruparPorParidad(nums: number[]): {
  * Ejemplo: fibonacci(10) === 55
  */
 export function fibonacci(n: number): number {
-  throw new Error("No implementado");
+  if (n <= 0) {return 0;}
+  if (n === 1) {return 1;} 
+  return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
 /**
@@ -75,7 +79,17 @@ export function validarContrasena(pass: string): {
   valida: boolean;
   errores: string[];
 } {
-  throw new Error("No implementado");
+  const errores: string[] = [];
+  if (pass.length < 8) {
+    errores.push("Debe tener al menos 8 caracteres");
+  }
+  if (pass.split("").filter(char => char >= "A" && char <= "Z").length === 0) {
+    errores.push("Debe contener al menos una letra mayúscula");
+  }
+  if (pass.split("").filter(char => char >= "0" && char <= "9").length === 0) {
+    errores.push("Debe contener al menos un dígito");
+  }
+  return { valida: errores.length === 0, errores };
 }
 
 /**
@@ -91,7 +105,7 @@ export function componerNombre(
   apellido: string,
   titulo?: string
 ): string {
-  throw new Error("No implementado");
+  return titulo ? `${titulo} ${nombre} ${apellido}` : `${nombre} ${apellido}`;
 }
 
 // ─── GRUPO 2: Inmutabilidad ───────────────────────────────────────────────
@@ -104,7 +118,7 @@ export function componerNombre(
  *          El array original NO debe cambiar.
  */
 export function agregarElemento<T>(arr: readonly T[], elemento: T): T[] {
-  throw new Error("No implementado");
+  return [...arr,elemento];
 }
 
 /**
@@ -116,7 +130,9 @@ export function agregarElemento<T>(arr: readonly T[], elemento: T): T[] {
  *          eliminarPorIndice([10,20,30], 99)   → [10,20,30]
  */
 export function eliminarPorIndice<T>(arr: readonly T[], indice: number): T[] {
-  throw new Error("No implementado");
+  if (indice < 0 || indice >= arr.length)
+    return [...arr];
+    else return arr.filter((_, i) => i !== indice);
 }
 
 /**
@@ -132,7 +148,7 @@ export function actualizarPrecio(
   producto: { nombre: string; precio: number; [key: string]: unknown },
   nuevoPrecio: number
 ): { nombre: string; precio: number; [key: string]: unknown } {
-  throw new Error("No implementado");
+  return { ...producto, precio: nuevoPrecio };
 }
 
 /**
@@ -144,7 +160,8 @@ export function actualizarPrecio(
  *          El array original NO debe cambiar.
  */
 export function ordenarSinMutar(nums: readonly number[]): number[] {
-  throw new Error("No implementado");
+  const copia = [...nums];
+  return copia.sort((a, b) => a - b);
 }
 
 /**
@@ -161,7 +178,10 @@ export function aplicarDescuentoRegistros(
   productos: readonly { nombre: string; precio: number }[],
   porcentaje: number
 ): { nombre: string; precio: number }[] {
-  throw new Error("No implementado");
+  return productos.map(prod => ({
+    ...prod,
+    precio: Number((prod.precio * (1 - porcentaje / 100)).toFixed(2))
+  }));
 }
 
 // ─── GRUPO 3: map / filter / reduce ───────────────────────────────────────
@@ -173,7 +193,7 @@ export function aplicarDescuentoRegistros(
  * Ejemplo: soloMayusculas(["hola", "mundo"]) → ["HOLA", "MUNDO"]
  */
 export function soloMayusculas(nombres: string[]): string[] {
-  throw new Error("No implementado");
+  return nombres.map(nombre => nombre.toUpperCase());
 }
 
 /**
@@ -188,7 +208,7 @@ export function productosBaratos(
   productos: { nombre: string; precio: number }[],
   precioMax: number
 ): { nombre: string; precio: number }[] {
-  throw new Error("No implementado");
+  return productos.filter(prod => prod.precio <= precioMax);
 }
 
 /**
@@ -199,7 +219,7 @@ export function productosBaratos(
  * Ejemplo: sumaTotal([1,2,3,4,5]) === 15
  */
 export function sumaTotal(nums: number[]): number {
-  throw new Error("No implementado");
+  return nums.reduce((acc, num) => acc + num, 0);
 }
 
 /**
@@ -211,7 +231,12 @@ export function sumaTotal(nums: number[]): number {
  *          contarPalabras("") → {}
  */
 export function contarPalabras(texto: string): Record<string, number> {
-  throw new Error("No implementado");
+  return texto.split(" ")
+              .filter(word => word !== "")
+              .reduce((acc, word) => {
+                acc[word] = (acc[word] || 0) + 1;
+                return acc;
+              }, {} as Record<string, number>);
 }
 
 /**
@@ -225,7 +250,9 @@ export function contarPalabras(texto: string): Record<string, number> {
  *          sumaFiltradosAlCuadrado([1,2,3], 10) === 0  (ninguno supera umbral)
  */
 export function sumaFiltradosAlCuadrado(nums: number[], umbral: number): number {
-  throw new Error("No implementado");
+  return nums.filter(num => num > umbral)
+             .map(num => num * num)
+             .reduce((acc,num) => acc + num, 0);
 }
 
 /**
@@ -240,7 +267,9 @@ export function sumaFiltradosAlCuadrado(nums: number[], umbral: number): number 
 export function promedioAprobados(
   estudiantes: { nombre: string; nota: number }[]
 ): number {
-  throw new Error("No implementado");
+  const aprobados = estudiantes.filter(apro => apro.nota >= 6);
+  const total = aprobados.reduce((acc, est) => acc + est.nota, 0); 
+  return aprobados.length > 0 ? total/aprobados.length : 0;
 }
 
 /**
@@ -249,7 +278,7 @@ export function promedioAprobados(
  * SIN loops. SIN reduce manual de aplanamiento.
  */
 export function aplanarLista<T>(listas: T[][]): T[] {
-  throw new Error("No implementado");
+  return listas.flatMap(lista => lista);
 }
 
 /**
@@ -258,7 +287,7 @@ export function aplanarLista<T>(listas: T[][]): T[] {
  *
  * Ejemplo:
  *   totalVentasCredito([
- *     {monto: 200, tipo: 'credito'},
+ *     {monto: 200, tipo: 'credito'|},
  *     {monto: 50,  tipo: 'credito'},
  *     {monto: 300, tipo: 'debito'},
  *     {monto: 150, tipo: 'credito'},
@@ -267,7 +296,8 @@ export function aplanarLista<T>(listas: T[][]): T[] {
 export function totalVentasCredito(
   transacciones: { monto: number; tipo: "credito" | "debito" }[]
 ): number {
-  throw new Error("No implementado");
+  return transacciones.filter(T => T.tipo === "credito" && T.monto > 100)
+                      .reduce((acc, T) => acc + T.monto, 0);
 }
 
 // ─── GRUPO 4: Composición y HOF ────────────────────────────────────────────
@@ -282,7 +312,7 @@ export function totalVentasCredito(
  *   compose(inc, doble)(3) === 7  // doble(3)=6, luego inc(6)=7
  */
 export function compose<T>(f: (x: T) => T, g: (x: T) => T): (x: T) => T {
-  throw new Error("No implementado");
+  return (x: T) => f(g(x));
 }
 
 /**
@@ -298,7 +328,7 @@ export function compose<T>(f: (x: T) => T, g: (x: T) => T): (x: T) => T {
  *   proc(3) === 7
  */
 export function pipe<T>(...fns: Array<(x: T) => T>): (x: T) => T {
-  throw new Error("No implementado");
+  return (x: T) => fns.reduce((acc, fn) => fn(acc), x);
 }
 
 /**
@@ -312,7 +342,7 @@ export function pipe<T>(...fns: Array<(x: T) => T>): (x: T) => T {
  *   sumarCurried(10)(5) === 15
  */
 export function curry2<A, B, C>(fn: (a: A, b: B) => C): (a: A) => (b: B) => C {
-  throw new Error("No implementado");
+  return (a: A) => (b: B) => fn(a, b);
 }
 
 /**
@@ -326,7 +356,7 @@ export function curry2<A, B, C>(fn: (a: A, b: B) => C): (a: A) => (b: B) => C {
  *   triplicar(7) === 21
  */
 export function partial<A, B, C>(fn: (a: A, b: B) => C, a: A): (b: B) => C {
-  throw new Error("No implementado");
+  return (b:B) => fn(a,b);
 }
 
 // ─── GRUPO 5: Contraste Imperativo vs Funcional ────────────────────────────
@@ -354,7 +384,12 @@ export function partial<A, B, C>(fn: (a: A, b: B) => C, a: A): (b: B) => C {
 export function procesarVentas(
   ventas: { monto: number; tipo: string }[]
 ): { total: number; count: number; promedio: number } {
-  throw new Error("No implementado");
+  return ventas.filter(V => V.monto > 100)
+               .reduce((acc,V) => ({
+                 total: acc.total + V.monto,
+                 count: acc.count + 1,
+                 promedio: (acc.count + 1) > 0 ? (acc.total + V.monto) / (acc.count + 1) : 0
+               }), { total: 0, count: 0, promedio: 0 });
 }
 
 /**
@@ -377,7 +412,23 @@ export function estadisticasArray(nums: number[]): {
   promedio: number;
   mediana: number;
 } {
-  throw new Error("No implementado");
+  const sorted = [...nums].sort((a, b) => a - b);
+  const sum = nums.reduce((acc, num) => acc + num, 0);
+  const count = nums.length;
+  const promedio = count > 0 ? sum / count : 0;
+  const mediana = count === 0 ? 0 :
+                   count % 2 === 1 ? sorted[Math.floor(count / 2)] :
+                   (sorted[count / 2 - 1] + sorted[count / 2]) / 2;
+  const min = count > 0 ? sorted[0] : 0;
+  const max = count > 0 ? sorted[sorted.length - 1] : 0;
+  return {
+    min,
+    max,
+    sum,
+    promedio,
+    mediana
+  };
+
 }
 
 /**
@@ -408,5 +459,11 @@ export function estadisticasArray(nums: number[]): {
 export function transformarDatos(
   registros: { nombre: string; ventas: number[]; activo: boolean }[]
 ): { nombre: string; promedio: number }[] {
-  throw new Error("No implementado");
-}
+  return registros.filter(reg => reg.activo)
+                  .map(reg => ({
+                    nombre: reg.nombre,
+                    promedio: reg.ventas.length > 0 ? Number((reg.ventas.reduce((acc, v) => acc + v, 0) / reg.ventas.length).toFixed(2)) : 0
+                  }))
+                  .sort((a, b) => b.promedio - a.promedio);
+                  }
+
